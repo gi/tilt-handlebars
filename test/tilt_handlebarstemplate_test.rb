@@ -116,7 +116,26 @@ describe Tilt::HandlebarsTemplate do
   end
 
   describe "helpers" do
-    it "applies helper to static text" do
+
+    it "applies simple helper to value" do
+      template = make_template '{{upper greeting}}, world'
+      template.register_helper(:upper) do |this, *args|
+        "#{args[0].upcase}"
+      end
+
+      template.render(nil, :greeting => 'hello').must_equal "HELLO, world"
+    end
+
+    it "applies simple helper to quoted value" do
+      template = make_template '{{upper "greetings and salutations"}}, world'
+      template.register_helper(:upper) do |this, *args|
+        "#{args[0].upcase}"
+      end
+
+      template.render.must_equal "GREETINGS AND SALUTATIONS, world"
+    end
+
+    it "applies block helper to static text" do
       template = make_template '{{#upper}}Hello, World.{{/upper}}'
       template.register_helper(:upper) do |this, block|
         block.fn(this).upcase
@@ -125,7 +144,7 @@ describe Tilt::HandlebarsTemplate do
       template.render.must_equal "HELLO, WORLD."
     end      
 
-    it "applies helper to nested values" do
+    it "applies block helper to nested values" do
       template = make_template '{{#upper}}Hey {{name}}{{/upper}}!'
       template.register_helper(:upper) do |this, block|
         block.fn(this).upcase
@@ -203,13 +222,46 @@ describe Tilt::HandlebarsTemplate do
   end
 
   describe "partials" do
-    it "displays content of partial" do
+    it "looks for partial relative to the template file" do
+      template = Tilt.new('test/partial_test.hbs')
+      template.render(nil, :author => "Stephanie Queen").must_equal "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
+    end
+
+    it "also recognizes .handlebars extension" do
+      template = Tilt.new('test/partial_test2.handlebars')
+      template.render(nil, :author => "Stephanie Queen").must_equal "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
+    end
+
+    it "can load relative partial along with registered partial" do
+      template = Tilt.new('test/two_partials.hbs')
+      template.register_partial :director, "Gary Rockhammer"
+      template.render(nil, :author => "Stephanie Queen").must_equal "It Came From the Partial Side by Stephanie Queen may be a good book, but I'm waiting for the movie directed by Gary Rockhammer."
+    end
+
+    it "gives precedence to registered partial over relative file" do
+      template = Tilt.new('test/partial_test.hbs')
+      template.register_partial :partial, "Revenge of the Partial"
+      template.render.must_equal "My all time favorite book is Revenge of the Partial."
+    end
+
+    it "raises error if partial cannot be found" do
+      template = Tilt.new('test/missing_partial.hbs')
+      # template.render
+      proc { template.render }.must_raise V8::Error
+    end
+
+    it "cannot automatically load partial when template is created from string instead of file" do
+      template = make_template "I wish I could load a partial like this: {{> my_partial}}."
+      proc { template.render }.must_raise V8::Error
+    end
+
+    it "allows partial to be registered" do
       template = make_template "{{> greeting}}. Nice to meet you."
       template.register_partial :greeting, "Hey, {{name}}"
       template.render(nil, :name => "Joe").must_equal "Hey, Joe. Nice to meet you."      
     end
 
-    it "calls registeded method if partial is missing" do
+    it "calls registered method if partial is missing" do
       template = make_template "{{> where}} I've been looking for you."
       template.partial_missing do |partial_name|
         "Where have you been, {{name}}?" if partial_name == 'where'

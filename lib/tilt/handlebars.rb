@@ -22,7 +22,8 @@ module Tilt
 
     def prepare
       @context = ::Handlebars::Context.new
-          @template = @context.compile(data)
+      @context.partial_missing { |partial_name| load_partial partial_name }
+      @template = @context.compile(data)
     end
 
     def evaluate(scope, locals = {}, &block)
@@ -59,7 +60,26 @@ module Tilt
     def allows_script?
       false
     end
+
+    def load_partial(partial_name)
+      if file
+        dir = File.dirname file
+        partial_file = File.expand_path("#{partial_name}.hbs", dir)
+        partial_file = File.expand_path("#{partial_name}.handlebars", dir) unless File.file? partial_file
+
+        if File.file? partial_file
+          return IO.read(partial_file)
+        end
+      end
+
+      raise "The partial '#{partial_name}' could not be found."
+    end
+
+    private :load_partial
+    
   end
+
+
 
   register HandlebarsTemplate, 'handlebars', 'hbs'
 end
