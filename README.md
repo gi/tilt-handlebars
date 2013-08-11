@@ -42,6 +42,31 @@ Output:
 
 	Hello, Joe. I'm happy to meet you.
 
+### Partials
+
+Partials are a file that can be loaded into another. For example, you may define a web page with 
+a master layout (`layout.hbs`), which includes a header (`header.hbs`) and footer (`footer.hbs`).
+In this case, `header.hbs` and `footer.hbs` would be partials; `layout.hbs` includes these partials.
+
+`layout.hbs`:
+
+```html
+<html>
+	<head>...</head>
+	<body>
+		{{> header }}
+
+		{{ content }}
+
+		{{> footer }}
+	</body>
+</html>
+```
+
+Notice that you do not include the `.hbs` file extension in the partial name. Tilt Handlebars 
+will look for the partial relative to the enclosing file (`layout.hbs` in this example) with
+either a `.hbs` or `.handlebars` extension.
+
 ## Contributing
 
 1. Fork it
