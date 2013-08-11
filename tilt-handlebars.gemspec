@@ -2,9 +2,11 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
+require 'tilt/version'
+
 Gem::Specification.new do |spec|
   spec.name          = "tilt-handlebars"
-  spec.version       = "1.0"
+  spec.version       = Tilt::Handlebars::VERSION
   spec.authors       = ["Jim Cushing"]
   spec.email         = ["jimothy@mac.com"]
   spec.description   = "Use Handlebars.rb with Tilt"
