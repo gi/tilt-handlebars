@@ -62,17 +62,19 @@ module Tilt
     end
 
     def load_partial(partial_name)
-      if file
+      if Pathname.new(partial_name).absolute? 
+        dir = ""
+      elsif file
         dir = File.dirname file
-        partial_file = File.expand_path("#{partial_name}.hbs", dir)
-        partial_file = File.expand_path("#{partial_name}.handlebars", dir) unless File.file? partial_file
-
-        if File.file? partial_file
-          return IO.read(partial_file)
-        end
       end
 
-      raise "The partial '#{partial_name}' could not be found."
+      partial_file = File.expand_path("#{partial_name}.hbs", dir)
+      partial_file = File.expand_path("#{partial_name}.handlebars", dir) unless File.file? partial_file
+      if File.file? partial_file
+        return IO.read(partial_file)
+      end
+
+      raise "The partial '#{partial_name}' could not be found. No such file #{partial_file}"
     end
 
     private :load_partial

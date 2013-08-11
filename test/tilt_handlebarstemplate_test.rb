@@ -227,6 +227,12 @@ describe Tilt::HandlebarsTemplate do
       template.render(nil, :author => "Stephanie Queen").must_equal "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
     end
 
+    it "can load partial from absolute path" do
+      dir = Dir.pwd
+      template = make_template "Have you read {{> #{dir}/test/partial}}?"
+      template.render(nil, :author => "Stephanie Queen").must_equal "Have you read It Came From the Partial Side by Stephanie Queen?"
+    end
+
     it "also recognizes .handlebars extension" do
       template = Tilt.new('test/partial_test2.handlebars')
       template.render(nil, :author => "Stephanie Queen").must_equal "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
