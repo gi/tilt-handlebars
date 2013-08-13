@@ -13,18 +13,16 @@ module Tilt
   #
   class HandlebarsTemplate < Template
     def initialize_engine
-      @context = ::Handlebars::Context.new
+      return if defined? ::Handlebars
+      require_template_library 'handlebars'
     end    
-
-    def self.engine_initialized?
-      true
-    end 
 
     def prepare
       @context = ::Handlebars::Context.new
       @context.partial_missing { |partial_name| load_partial partial_name }
       @template = @context.compile(data)
     end
+
 
     def evaluate(scope, locals = {}, &block)
       # Based on LiquidTemplate

@@ -32,7 +32,7 @@ Hello, {{name}}. I'm {{emotion}} to meet you.
 Then, render the template with Ruby:
 
 ```ruby
-require 'tilt/handlebars'
+require 'tilt-handlebars'
 
 template = Tilt.new('hello.hbs')
 puts template.render(nil, name: "Joe", emotion: "happy")
@@ -66,6 +66,25 @@ In this case, `header.hbs` and `footer.hbs` would be partials; `layout.hbs` incl
 Notice that you do not include the `.hbs` file extension in the partial name. Tilt Handlebars 
 will look for the partial relative to the enclosing file (`layout.hbs` in this example) with
 either a `.hbs` or `.handlebars` extension.
+
+#### Sinatra
+
+Handlebars can be used with Sintra:
+
+```ruby
+class MyApp < Sinatra::Base
+  helpers Sinatra::Handlebars
+
+  get "/hello" do
+    handlebars :hello, locals: {name: 'Joe'}
+  end
+end
+```
+
+This will use the template file named `views/hello.hbs`.
+
+Partials can also be used with Sinatra. As described previously, partials will be loaded
+relative to the enclosing template (e.g., in the `views` directory).
 
 ## Contributing
 

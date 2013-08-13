@@ -1,1 +1,2 @@
-require 'tilt-handlebars/handlebars'
+require 'tilt-handlebars'
+require 'tilt-handlebars/version'

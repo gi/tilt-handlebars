@@ -1,11 +1,7 @@
-require 'bundler'
-Bundler.setup
-
-require 'minitest/autorun'
-require 'minitest/spec'
+require 'test_helper'
 
 require 'tilt'
-require 'tilt/handlebars'
+require 'tilt-handlebars'
 
 def make_template(text)
   Tilt::HandlebarsTemplate.new { |t| text }
@@ -13,7 +9,7 @@ end
 
 describe Tilt::HandlebarsTemplate do
   it 'renders from file' do
-    template = Tilt.new('test/hello.hbs')
+    template = Tilt.new('test/fixtures/views/hello.hbs')
     template.render(nil, name: 'Joe', emotion: 'happy').must_equal "Hello, Joe. I'm happy to meet you.\n"
   end
 
@@ -223,35 +219,35 @@ describe Tilt::HandlebarsTemplate do
 
   describe "partials" do
     it "looks for partial relative to the template file" do
-      template = Tilt.new('test/partial_test.hbs')
+      template = Tilt.new('test/fixtures/views/partial_test.hbs')
       template.render(nil, :author => "Stephanie Queen").must_equal "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
     end
 
     it "can load partial from absolute path" do
       dir = Dir.pwd
-      template = make_template "Have you read {{> #{dir}/test/partial}}?"
+      template = make_template "Have you read {{> #{dir}/test/fixtures/views/partial}}?"
       template.render(nil, :author => "Stephanie Queen").must_equal "Have you read It Came From the Partial Side by Stephanie Queen?"
     end
 
     it "also recognizes .handlebars extension" do
-      template = Tilt.new('test/partial_test2.handlebars')
+      template = Tilt.new('test/fixtures/views/partial_test2.handlebars')
       template.render(nil, :author => "Stephanie Queen").must_equal "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
     end
 
     it "can load relative partial along with registered partial" do
-      template = Tilt.new('test/two_partials.hbs')
+      template = Tilt.new('test/fixtures/views/two_partials.hbs')
       template.register_partial :director, "Gary Rockhammer"
       template.render(nil, :author => "Stephanie Queen").must_equal "It Came From the Partial Side by Stephanie Queen may be a good book, but I'm waiting for the movie directed by Gary Rockhammer."
     end
 
     it "gives precedence to registered partial over relative file" do
-      template = Tilt.new('test/partial_test.hbs')
+      template = Tilt.new('test/fixtures/views/partial_test.hbs')
       template.register_partial :partial, "Revenge of the Partial"
       template.render.must_equal "My all time favorite book is Revenge of the Partial."
     end
 
     it "raises error if partial cannot be found" do
-      template = Tilt.new('test/missing_partial.hbs')
+      template = Tilt.new('test/fixtures/views/missing_partial.hbs')
       # template.render
       proc { template.render }.must_raise V8::Error
     end

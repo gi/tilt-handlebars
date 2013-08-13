@@ -1,9 +1,12 @@
 Version 1.1
 -----------
-* Loads partials relative to template file. For example, if `views/my_template.hbs` contains `{{> my_partial}}`, will load partial file `views/my_partial.hbs` (or `my_partial.handlebars`).
+* Sinatra support
+* Automatic loading of partials
+* `require 'tilt-handlebars'` is preferred way to load Tilt Handlebars. However, `require 'tilt-handlebars'` still works to maintain backwards compatibility.
+
 
 Version 1.0
 -----------
 2013 July 5
 
-Initial release
+* Initial release
