@@ -1,7 +1,7 @@
 require 'test_helper'
 
 require 'tilt'
-require 'tilt-handlebars'
+require 'tilt/handlebars'
 
 def make_template(text)
   Tilt::HandlebarsTemplate.new { |t| text }

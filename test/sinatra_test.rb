@@ -2,7 +2,7 @@ require 'test_helper'
 
 require 'rack/test'
 require 'sinatra/base'
-require 'tilt-handlebars/sinatra'
+require 'sinatra/handlebars'
 
 class HandlebarsApp < Sinatra::Base
   set :root, File.dirname(__FILE__) + '/fixtures'

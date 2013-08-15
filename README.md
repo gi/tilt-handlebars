@@ -32,7 +32,7 @@ Hello, {{name}}. I'm {{emotion}} to meet you.
 Then, render the template with Ruby:
 
 ```ruby
-require 'tilt-handlebars'
+require 'tilt/handlebars'
 
 template = Tilt.new('hello.hbs')
 puts template.render(nil, name: "Joe", emotion: "happy")
@@ -72,6 +72,8 @@ either a `.hbs` or `.handlebars` extension.
 Handlebars can be used with Sintra:
 
 ```ruby
+require 'sinatra/handlebars'
+
 class MyApp < Sinatra::Base
   helpers Sinatra::Handlebars
 
@@ -90,6 +92,7 @@ relative to the enclosing template (e.g., in the `views` directory).
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+3. Add tests, preferrably using Minitest::Spec for consistency.
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create new Pull Request
