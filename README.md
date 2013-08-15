@@ -1,6 +1,7 @@
 # Tilt::Handlebars
 [![Build Status](https://travis-ci.org/jimothyGator/tilt-handlebars.png?branch=develop)](https://travis-ci.org/jimothyGator/tilt-handlebars)
 [![Coverage Status](https://coveralls.io/repos/jimothyGator/tilt-handlebars/badge.png)](https://coveralls.io/r/jimothyGator/tilt-handlebars)
+[![Code Climate](https://codeclimate.com/github/jimothyGator/tilt-handlebars.png)](https://codeclimate.com/github/jimothyGator/tilt-handlebars)
 
 Adds support for [Handlebars.rb](https://github.com/cowboyd/handlebars.rb) template 
 engine to [Tilt](https://github.com/rtomayko/tilt).
