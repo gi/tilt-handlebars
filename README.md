@@ -1,4 +1,5 @@
 # Tilt::Handlebars
+<a href="http://badge.fury.io/rb/tilt-handlebars"><img src="https://badge.fury.io/rb/tilt-handlebars@2x.png" alt="Gem Version" height="18"></a>
 [![Build Status](https://travis-ci.org/jimothyGator/tilt-handlebars.png?branch=develop)](https://travis-ci.org/jimothyGator/tilt-handlebars)
 [![Coverage Status](https://coveralls.io/repos/jimothyGator/tilt-handlebars/badge.png?branch=develop)](https://coveralls.io/r/jimothyGator/tilt-handlebars?branch=develop)
 [![Code Climate](https://codeclimate.com/github/jimothyGator/tilt-handlebars.png)](https://codeclimate.com/github/jimothyGator/tilt-handlebars)
