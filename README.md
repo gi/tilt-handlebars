@@ -1,4 +1,5 @@
 # Tilt::Handlebars
+[![Build Status](https://travis-ci.org/jimothyGator/tilt-handlebars.png?branch=develop)](https://travis-ci.org/jimothyGator/tilt-handlebars)
 
 Adds support for [Handlebars.rb](https://github.com/cowboyd/handlebars.rb) template 
 engine to [Tilt](https://github.com/rtomayko/tilt).
