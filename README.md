@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/jimothyGator/tilt-handlebars/badge.png?branch=develop)](https://coveralls.io/r/jimothyGator/tilt-handlebars?branch=develop)
 [![Code Climate](https://codeclimate.com/github/jimothyGator/tilt-handlebars.png)](https://codeclimate.com/github/jimothyGator/tilt-handlebars)
 
-[![Codeship Status](https://www.codeship.io/projects/71da7c90-ee55-0130-eff4-7205960840ac/status)]
+[![Codeship Status](https://www.codeship.io/projects/71da7c90-ee55-0130-eff4-7205960840ac/status)](https://www.codeship.io/projects/6182)
 
 Adds support for [Handlebars.rb](https://github.com/cowboyd/handlebars.rb) template 
 engine to [Tilt](https://github.com/rtomayko/tilt).
