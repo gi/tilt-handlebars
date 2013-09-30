@@ -225,7 +225,7 @@ describe Tilt::HandlebarsTemplate do
 
     it "can load partial from absolute path" do
       dir = Dir.pwd
-      template = make_template "Have you read {{> #{dir}/test/fixtures/views/partial}}?"
+      template = make_template "Have you read {{> \"#{dir}/test/fixtures/views/partial\" }}?"
       template.render(nil, :author => "Stephanie Queen").must_equal "Have you read It Came From the Partial Side by Stephanie Queen?"
     end
 
