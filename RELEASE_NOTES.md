@@ -12,7 +12,7 @@ This version is recommend for all users, as it brings support for the release ve
 * Backwards compatibility note: If you are using automatic partials loading 
   with an absolute path, you must now quote the path. For example:
 
-		{{> "/the/path/to/partial.html.hbs" }}
+		{{> "/the/path/to/partial" }}
 
 	This is due to changes in the Handlebars parser.
 
