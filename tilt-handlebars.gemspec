@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "tilt", "~> 1.4"
-  spec.add_dependency "handlebars", "~> 0.5"
+  spec.add_dependency "handlebars", "~> 0.6"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
