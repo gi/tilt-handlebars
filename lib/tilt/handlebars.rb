@@ -1,3 +1,4 @@
+require 'pathname'
 require 'tilt' unless defined? Tilt
 require 'handlebars'
 
