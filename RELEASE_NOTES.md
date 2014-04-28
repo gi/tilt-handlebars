@@ -1,6 +1,12 @@
 Tilt Handlebars Release Notes
 =============================
 
+Version 1.3.1
+-------------
+
+* Issue #1: Fix uninitialized constant Tilt::HandlebarsTemplate::Pathname. Thank you, [defeated](https://github.com/defeated) for the patch.
+
+
 Version 1.3.0
 -------------
 2014 January 24
