@@ -99,6 +99,7 @@ relative to the enclosing template (e.g., in the `views` directory).
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Add tests, preferrably using Minitest::Spec for consistency.
-4. Commit your changes (`git commit -am 'Add some feature'`)
-5. Push to the branch (`git push origin my-new-feature`)
-6. Create new Pull Request
+4. Run tests with `bundle exec rake test`.
+5. Commit your changes (`git commit -am 'Add some feature'`)
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new Pull Request
