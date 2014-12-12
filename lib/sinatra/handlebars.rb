@@ -1,3 +1,5 @@
+require 'tilt/handlebars'
+
 module Sinatra
 	module Handlebars
 		def handlebars(*args)
