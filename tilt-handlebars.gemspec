@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "tilt", "~> 1.4"
+  spec.add_dependency "tilt", "~> 2.0"
   spec.add_dependency "handlebars", "~> 0.6"
 
   spec.add_development_dependency "bundler", "~> 1.3"
