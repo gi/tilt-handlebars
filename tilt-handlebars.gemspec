@@ -9,8 +9,12 @@ Gem::Specification.new do |spec|
   spec.version       = Tilt::Handlebars::VERSION
   spec.authors       = ["Jim Cushing"]
   spec.email         = ["jimothy@mac.com"]
-  spec.description   = "Use Handlebars.rb with Tilt"
-  spec.summary       = spec.description
+  spec.description = <<-EOF
+    tilt-handlebars allows the Handlebars template engine to work with Tilt.
+    Is uses the official JavaScript implementation of Handlebars, courtesy
+    of therubyracer and handlebars.rb from cowboyd.
+  EOF
+  spec.summary       = "Tilt support for Handlebars"
   spec.homepage      = "https://github.com/jimothyGator/tilt-handlebars"
   spec.license       = "MIT"
 
