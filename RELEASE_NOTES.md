@@ -4,7 +4,7 @@ Tilt Handlebars Release Notes
 Version 1.4
 -----------
 * Updated to Tilt 2.0. It should still work with Tilt 1.3.
-* Updated to [Handlebars.rb](https://github.com/cowboyd/handlebars.rb) 0.7.0 and [Handlebars.js](3.0)
+* Updated to [Handlebars.rb](https://github.com/cowboyd/handlebars.rb) 0.7.0 and [Handlebars.js](https://github.com/wycats/handlebars.js/) 3.0.
 * Issue #3: Fix "Template engine not found error"
 
 Version 1.3.1
