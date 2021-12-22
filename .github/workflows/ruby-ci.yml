@@ -11,6 +11,19 @@ on:
       - main
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby-3.0
+          bundler-cache: true
+      - name: Lint
+        run: bundle exec rubocop
+
   test:
     strategy:
       matrix:

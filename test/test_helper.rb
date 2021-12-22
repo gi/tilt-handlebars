@@ -1,9 +1,10 @@
-require 'bundler'
+# frozen_string_literal: true
+
+require "bundler"
 Bundler.setup
 
-require 'coveralls'
+require "coveralls"
 Coveralls.wear!
 
-require 'minitest/autorun'
-require 'minitest/spec'
-
+require "minitest/autorun"
+require "minitest/spec"

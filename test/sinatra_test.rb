@@ -1,22 +1,23 @@
-require 'test_helper'
+# frozen_string_literal: true
 
-require 'rack/test'
-require 'sinatra/base'
-require 'sinatra/handlebars'
+require "test_helper"
+
+require "rack/test"
+require "sinatra/base"
+require "sinatra/handlebars"
 
 class HandlebarsApp < Sinatra::Base
-  set :root, File.dirname(__FILE__) + '/fixtures'
+  set :root, "#{__dir__}/fixtures"
   helpers Sinatra::Handlebars
 
   get "/hello" do
-    handlebars :hello, locals: {name: 'Joe', emotion: 'happy'}
+    handlebars :hello, locals: { name: "Joe", emotion: "happy" }
   end
 
   get "/partials" do
-    handlebars :partial_test, locals: {author: "Stephanie Queen"}
+    handlebars :partial_test, locals: { author: "Stephanie Queen" }
   end
 end
-
 
 describe "Using handlebars in Sinatra" do
   include Rack::Test::Methods
@@ -34,5 +35,4 @@ describe "Using handlebars in Sinatra" do
     response = get "/partials"
     response.body.strip.must_equal "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
   end
-
 end
