@@ -27,6 +27,9 @@ jobs:
   test:
     strategy:
       matrix:
+        appraisal:
+          - tilt_1
+          - tilt_2
         os:
           # - macos-latest
           - ubuntu-latest
@@ -36,6 +39,8 @@ jobs:
           - ruby-3.0
           # - jruby
           # - truffleruby
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.appraisal }}.gemfile
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout

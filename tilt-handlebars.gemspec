@@ -33,8 +33,9 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
 
   spec.add_dependency "handlebars", "~> 0.7"
-  spec.add_dependency "tilt", ">= 1.3", "< 3"
+  spec.add_dependency "tilt", ">= 1.3"
 
+  spec.add_development_dependency "appraisal"
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "coveralls"
   spec.add_development_dependency "minitest", "~> 5.0"
