@@ -1,12 +1,14 @@
-require 'sinatra'
-require 'sinatra/handlebars'
+# frozen_string_literal: true
+
+require "sinatra"
+require "sinatra/handlebars"
 
 class MyApp < Sinatra::Base
   helpers Sinatra::Handlebars
 
   get "/hello" do
-    handlebars :index, locals: {name: 'Joe', emotion: 'happy'}
+    handlebars :index, locals: { name: "Joe", emotion: "happy" }
   end
 
-  run! if app_file == $0
+  run! if app_file == $PROGRAM_NAME
 end

@@ -1,9 +1,10 @@
-require 'pathname'
-require 'tilt' unless defined? Tilt
-require 'handlebars'
+# frozen_string_literal: true
+
+require "handlebars"
+require "pathname"
+require "tilt" unless defined? Tilt
 
 module Tilt
-
   # Handlebars.rb template implementation. See:
   # https://github.com/cowboyd/handlebars.rb
   # and http://handlebarsjs.com
@@ -15,8 +16,9 @@ module Tilt
   class HandlebarsTemplate < Template
     def initialize_engine
       return if defined? ::Handlebars
-      require_template_library 'handlebars'
-    end    
+
+      require_template_library "handlebars"
+    end
 
     def prepare
       @context = ::Handlebars::Context.new
@@ -24,25 +26,26 @@ module Tilt
       @template = @context.compile(data)
     end
 
-
+    # rubocop:disable Metrics/AbcSize
     def evaluate(scope, locals = {}, &block)
       # Based on LiquidTemplate
-      locals = locals.inject({}){ |h,(k,v)| h[k.to_s] = v ; h }
+      locals = locals.transform_keys(&:to_s)
       if scope.respond_to?(:to_h)
-        scope  = scope.to_h.inject({}){ |h,(k,v)| h[k.to_s] = v ; h }
+        scope = scope.to_h.transform_keys(&:to_s)
         locals = scope.merge(locals)
       else
         scope.instance_variables.each do |var|
           key = var.to_s.delete("@")
-          locals[key] = scope.instance_variable_get(var) unless locals.has_key? key
+          locals[key] = scope.instance_variable_get(var) unless locals.key? key
         end
       end
 
-      locals['yield'] = block.nil? ? '' : yield
-      locals['content'] = locals['yield']
+      locals["yield"] = block.nil? ? "" : yield
+      locals["content"] = locals["yield"]
 
-      @template.call(locals);
+      @template.call(locals)
     end
+    # rubocop:enable Metrics/AbcSize
 
     def register_helper(name, &fn)
       @context.register_helper(name, &fn)
@@ -61,7 +64,7 @@ module Tilt
     end
 
     def load_partial(partial_name)
-      if Pathname.new(partial_name).absolute? 
+      if Pathname.new(partial_name).absolute?
         dir = ""
       elsif file
         dir = File.dirname file
@@ -69,18 +72,14 @@ module Tilt
 
       partial_file = File.expand_path("#{partial_name}.hbs", dir)
       partial_file = File.expand_path("#{partial_name}.handlebars", dir) unless File.file? partial_file
-      if File.file? partial_file
-        return IO.read(partial_file)
-      end
+
+      return File.read(partial_file) if File.file?(partial_file)
 
       raise "The partial '#{partial_name}' could not be found. No such file #{partial_file}"
     end
 
     private :load_partial
-    
   end
 
-  register HandlebarsTemplate, 'handlebars', 'hbs'
+  register HandlebarsTemplate, "handlebars", "hbs"
 end
-
-
