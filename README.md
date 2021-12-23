@@ -1,10 +1,10 @@
 # Tilt::Handlebars
-<a href="http://badge.fury.io/rb/tilt-handlebars"><img src="https://badge.fury.io/rb/tilt-handlebars@2x.png" alt="Gem Version" height="18"></a>
-[![Build Status](https://travis-ci.org/jimothyGator/tilt-handlebars.png?branch=develop)](https://travis-ci.org/jimothyGator/tilt-handlebars)
-[![Coverage Status](https://coveralls.io/repos/jimothyGator/tilt-handlebars/badge.png?branch=develop)](https://coveralls.io/r/jimothyGator/tilt-handlebars?branch=develop)
-[![Code Climate](https://codeclimate.com/github/jimothyGator/tilt-handlebars.png)](https://codeclimate.com/github/jimothyGator/tilt-handlebars)
 
-[![Codeship Status](https://www.codeship.io/projects/71da7c90-ee55-0130-eff4-7205960840ac/status)](https://www.codeship.io/projects/6182)
+[![Gem Version](https://badge.fury.io/rb/tilt-handlebars.svg)](https://rubygems.org/gems/tilt-handlebars)
+[![Build Status](https://github.com/gi/tilt-handlebars/actions/workflows/ruby-ci.yml/badge.svg)](https://github.com/gi/tilt-handlebars/actions/workflows/ruby-ci.yml)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/19d544fcb843a50db1a2/test_coverage)](https://codeclimate.com/github/gi/tilt-handlebars/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/19d544fcb843a50db1a2/maintainability)](https://codeclimate.com/github/gi/tilt-handlebars/maintainability)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 
 Adds support for [Handlebars.rb](https://github.com/cowboyd/handlebars.rb) template 
 engine to [Tilt](https://github.com/rtomayko/tilt).
