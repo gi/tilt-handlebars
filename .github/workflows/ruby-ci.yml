@@ -11,6 +11,25 @@ on:
       - main
 
 jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby-3.0
+          bundler-cache: true
+      - name: Test
+        run: bundle exec rake
+      - name: Upload
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: fa0a43df2e210318c8da0958f9f100ab1b278c04f57f923affad8bd9fba23901
+        with:
+          coverageLocations: ${{ github.workspace }}/test/reports/coverage/coverage.xml:cobertura
+
   lint:
     runs-on: ubuntu-latest
     steps:
