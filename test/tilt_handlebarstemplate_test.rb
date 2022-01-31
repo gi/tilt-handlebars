@@ -136,26 +136,30 @@ describe Tilt::HandlebarsTemplate do
 
     it "applies block helper to static text" do
       template = make_template "{{#upper}}Hello, World.{{/upper}}"
-      template.register_helper(:upper) do |this, block|
-        block.fn(this).upcase
-      end
+      template.register_helper(:upper, <<~JS)
+        function(options) {
+          return options.fn(this).toUpperCase();
+        }
+      JS
 
       template.render.must_equal "HELLO, WORLD."
     end
 
     it "applies block helper to nested values" do
       template = make_template "{{#upper}}Hey {{name}}{{/upper}}!"
-      template.register_helper(:upper) do |this, block|
-        block.fn(this).upcase
-      end
+      template.register_helper(:upper, <<~JS)
+        function(options) {
+          return options.fn(this).toUpperCase();
+        }
+      JS
 
       template.render(nil, name: "Joe").must_equal "HEY JOE!"
     end
 
     it "displays properties from object using 'with' helper" do
       template = make_template "{{#with person}}Hello, {{ first_name }} {{ last_name }}{{/with}}"
-      joe = Person.new "Joe", "Blow"
-      template.render(nil, person: joe).must_equal "Hello, Joe Blow"
+      joe = HashPerson.new "Joe", "Blow"
+      template.render(nil, person: joe.to_h).must_equal "Hello, Joe Blow"
     end
   end
 
@@ -259,12 +263,12 @@ describe Tilt::HandlebarsTemplate do
     it "raises error if partial cannot be found" do
       template = Tilt.new("test/fixtures/views/missing_partial.hbs")
       # template.render
-      proc { template.render }.must_raise V8::Error
+      proc { template.render }.must_raise
     end
 
     it "cannot automatically load partial when template is created from string instead of file" do
       template = make_template "I wish I could load a partial like this: {{> my_partial}}."
-      proc { template.render }.must_raise V8::Error
+      proc { template.render }.must_raise
     end
 
     it "allows partial to be registered" do

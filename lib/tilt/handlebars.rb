@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "handlebars"
+require "handlebars/engine"
 require "pathname"
-require "tilt" unless defined? Tilt
+require "tilt"
 
 module Tilt
   # Handlebars.rb template implementation. See:
@@ -21,9 +21,9 @@ module Tilt
     end
 
     def prepare
-      @context = ::Handlebars::Context.new
-      @context.partial_missing { |partial_name| load_partial partial_name }
-      @template = @context.compile(data)
+      @engine = ::Handlebars::Engine.new
+      @engine.register_partial_missing { |name| load_partial(name) }
+      @template = @engine.compile(data)
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -47,16 +47,16 @@ module Tilt
     end
     # rubocop:enable Metrics/AbcSize
 
-    def register_helper(name, &fn)
-      @context.register_helper(name, &fn)
+    def register_helper(*args, **opts, &block)
+      @engine.register_helper(*args, **opts, &block)
     end
 
-    def register_partial(*args)
-      @context.register_partial(*args)
+    def register_partial(*args, **opts, &block)
+      @engine.register_partial(*args, **opts, &block)
     end
 
-    def partial_missing(&fn)
-      @context.partial_missing(&fn)
+    def partial_missing(*args, **opts, &block)
+      @engine.register_partial_missing(*args, **opts, &block)
     end
 
     def allows_script?

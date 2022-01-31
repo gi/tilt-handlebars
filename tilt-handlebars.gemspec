@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
 
-  spec.add_dependency "handlebars", "~> 0.7"
+  spec.add_dependency "handlebars-engine"
   spec.add_dependency "tilt", ">= 1.3"
 
   spec.add_development_dependency "appraisal"
