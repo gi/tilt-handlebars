@@ -9,22 +9,23 @@ Gem::Specification.new do |spec|
   spec.authors = ["Jim Cushing", "Zach Gianos"]
   spec.email = ["jimothy@mac.com", "zach.gianos+git@gmail.com"]
 
-  spec.summary = "Tilt support for Handlebars"
+  spec.summary = "A Tilt interface for the official Handlebars.js"
   spec.description = <<-DESCRIPTION
-    tilt-handlebars allows the Handlebars template engine to work with Tilt.
-    Is uses the official JavaScript implementation of Handlebars, courtesy
-    of therubyracer and handlebars.rb from cowboyd.
-  DESCRIPTION
+    A Tilt interface for the official JavaScript implementation of the
+    Handlebars template engine.
+
+    Handlebars::Engine provides the API wrapper. MiniRacer provides the
+    JavaScript execution environment.
+    DESCRIPTION
 
   spec.homepage = "https://github.com/gi/tilt-handlebars"
   spec.license = "MIT"
+  spec.required_ruby_version = ">= 2.6.0"
 
   spec.metadata["changelog_uri"] = "#{spec.homepage}/RELEASE_NOTES.md"
+  spec.metadata["github_repo"] = spec.homepage
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["rubygems_mfa_required"] = "true"
   spec.metadata["source_code_uri"] = spec.homepage
-
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.6")
 
   spec.files = `git ls-files -z`.split("\x0")
   spec.bindir = "exe"
