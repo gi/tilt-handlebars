@@ -38,6 +38,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "appraisal"
   spec.add_development_dependency "bundler"
+  spec.add_development_dependency "bundler-audit"
   spec.add_development_dependency "coveralls"
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "rack-test", "~> 0.6"
@@ -49,4 +50,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "simplecov-cobertura"
   spec.add_development_dependency "sinatra", "~> 1.4"
+  spec.add_development_dependency "yard"
 end

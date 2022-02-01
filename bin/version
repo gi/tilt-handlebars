@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+dir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
+root="$(cd "${dir}/.." && pwd)"
+
+file="${root}/lib/handlebars/engine/version.rb"
+
+current() {
+  ruby -r "${file}" -e 'puts Handlebars::Engine::VERSION'
+}
+
+update() {
+  # sed -E -i '' "s/VERSION = \".*\"/VERSION = \"${version}\"/" "${file}"
+  ruby -i -p -e "gsub(/VERSION = \".*\"/, 'VERSION = \"${version}\"')" "${file}"
+}
+
+version=$1
+
+if [[ "${version}" == "" ]]; then
+  current
+else
+  update
+  current
+fi

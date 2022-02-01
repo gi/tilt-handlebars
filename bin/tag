@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+dir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [[ "${branch}" != "main" ]]; then
+  echo "Releases are restricted to the main branch."
+  exit 1
+fi
+
+diff=$(git diff HEAD --quiet; echo $?)
+
+if [[ "${diff}" != "0" ]]; then
+  echo "Releases are restricted to clean branches."
+  exit 1
+fi
+
+if [[ -n "${CI}" ]]; then
+  git config --global user.email "gi+handlebars-ruby@users.noreply.github.com"
+  git config --global user.name "handlebars-ruby"
+  git fetch --tags
+fi
+
+"${dir}/rake" release:source_control_push
