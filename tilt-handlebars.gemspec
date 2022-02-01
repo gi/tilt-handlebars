@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
 
     Handlebars::Engine provides the API wrapper. MiniRacer provides the
     JavaScript execution environment.
-    DESCRIPTION
+  DESCRIPTION
 
   spec.homepage = "https://github.com/gi/tilt-handlebars"
   spec.license = "MIT"
@@ -45,6 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "rubocop-performance"
   spec.add_development_dependency "rubocop-rake"
+  spec.add_development_dependency "rubocop-rspec"
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "simplecov-cobertura"
   spec.add_development_dependency "sinatra", "~> 1.4"

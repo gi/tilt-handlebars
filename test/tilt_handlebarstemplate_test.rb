@@ -54,28 +54,36 @@ describe Tilt::HandlebarsTemplate do
     shopping_list = ["milk", "eggs", "flour", "sugar"]
 
     it "displays element from array" do
+      expected = "Don't forget the eggs!"
       template = make_template "Don't forget the {{ shopping_list.[1] }}!"
-      template.render(nil, shopping_list: shopping_list).must_equal "Don't forget the eggs!"
+      template.render(nil, shopping_list: shopping_list).must_equal(expected)
     end
 
     it "displays elements in an array in a loop" do
       expected = "Items to buy: milk eggs flour sugar"
-      template = make_template "Items to buy:{{#each shopping_list}} {{ this }}{{/each}}"
+      template = make_template(
+        "Items to buy:{{#each shopping_list}} {{ this }}{{/each}}",
+      )
       template.render(nil, shopping_list: shopping_list).must_equal(expected)
     end
 
     it "displays alternate text when array is empty" do
       expected = "Items to buy: All done!"
-      template = make_template "Items to buy:{{#each shopping_list}} {{ this }}{{else}} All done!{{/each}}"
+      template =
+        "Items to buy:{{#each shopping_list}} {{ this }}{{else}} All done!"\
+        "{{/each}}"
+      template = make_template(template)
       template.render(nil, shopping_list: []).must_equal(expected)
     end
   end
 
   describe "conditionals" do
-    template = make_template "{{#if morning}}Good morning{{else}}Hello{{/if}}, {{ name }}"
+    template = "{{#if morning}}Good morning{{else}}Hello{{/if}}, {{ name }}"
+    template = make_template(template)
 
     it "displays text if value is true" do
-      template.render(nil, name: "Joe", morning: true).must_equal "Good morning, Joe"
+      rendered = template.render(nil, name: "Joe", morning: true)
+      expect(rendered).must_equal("Good morning, Joe")
     end
 
     it "displays alternate text if value is false" do
@@ -88,10 +96,13 @@ describe Tilt::HandlebarsTemplate do
   end
 
   describe "unless expressions" do
-    template = make_template "Hello, {{ name }}.{{#unless weekend}} Time to go to work.{{/unless}}"
+    template =
+      "Hello, {{ name }}.{{#unless weekend}} Time to go to work.{{/unless}}"
+    template = make_template(template)
 
     it "displays text if value is false" do
-      template.render(nil, name: "Joe", weekend: false).must_equal "Hello, Joe. Time to go to work."
+      expected = "Hello, Joe. Time to go to work."
+      template.render(nil, name: "Joe", weekend: false).must_equal(expected)
     end
 
     it "does not display text if value is true" do
@@ -99,14 +110,16 @@ describe Tilt::HandlebarsTemplate do
     end
 
     it "displays text if value is missing" do
-      template.render(nil, name: "Joe").must_equal "Hello, Joe. Time to go to work."
+      expected = "Hello, Joe. Time to go to work."
+      template.render(nil, name: "Joe").must_equal(expected)
     end
   end
 
   describe "escape HTML" do
     it "escapes HTML characters" do
+      expected = "Hey &lt;b&gt;Joe&lt;/b&gt;!"
       template = make_template "Hey {{ name }}!"
-      template.render(nil, name: "<b>Joe</b>").must_equal "Hey &lt;b&gt;Joe&lt;/b&gt;!"
+      template.render(nil, name: "<b>Joe</b>").must_equal(expected)
     end
 
     it "does not escape HTML characters in triple-stash" do
@@ -157,7 +170,9 @@ describe Tilt::HandlebarsTemplate do
     end
 
     it "displays properties from object using 'with' helper" do
-      template = make_template "{{#with person}}Hello, {{ first_name }} {{ last_name }}{{/with}}"
+      template =
+        "{{#with person}}Hello, {{ first_name }} {{ last_name }}{{/with}}"
+      template = make_template(template)
       joe = HashPerson.new "Joe", "Blow"
       template.render(nil, person: joe.to_h).must_equal "Hello, Joe Blow"
     end
@@ -196,20 +211,26 @@ describe Tilt::HandlebarsTemplate do
     end
 
     it "merges scope object properties with locals" do
-      template = make_template "{{ greeting }}, {{ first_name }} {{ last_name }}."
+      template = "{{ greeting }}, {{ first_name }} {{ last_name }}."
+      template = make_template(template)
       template.render(joe, greeting: "Salut").must_equal "Salut, John Doe."
     end
 
-    it "prefers locals over scope object properties with same name" do
-      template = make_template "Hello, {{ first_name }} {{ last_name }}."
-      template.render(joe, first_name: "Jane").must_equal "Hello, Jane Doe."
-    end
+    describe "when locals and scope object properties have same name" do
+      it "prefers locals" do
+        template = make_template "Hello, {{ first_name }} {{ last_name }}."
+        template.render(joe, first_name: "Jane").must_equal "Hello, Jane Doe."
+      end
 
-    it "prefers locals over scope object properties with same name when object defines to_h" do
-      joe_hash = HashPerson.new "John", "Doe"
+      describe "when object defines to_h" do
+        it "prefers locals" do
+          joe_hash = HashPerson.new "John", "Doe"
 
-      template = make_template "Hello, {{ first_name }} {{ last_name }}."
-      template.render(joe_hash, first_name: "Jane").must_equal "Hello, Jane Doe."
+          template = make_template "Hello, {{ first_name }} {{ last_name }}."
+          rendered = template.render(joe_hash, first_name: "Jane")
+          expect(rendered).must_equal("Hello, Jane Doe.")
+        end
+      end
     end
   end
 
@@ -227,20 +248,27 @@ describe Tilt::HandlebarsTemplate do
 
   describe "partials" do
     it "looks for partial relative to the template file" do
-      expected = "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
+      expected =
+        "My all time favorite book is It Came From the Partial Side by "\
+        "Stephanie Queen."
       template = Tilt.new("test/fixtures/views/partial_test.hbs")
       template.render(nil, author: "Stephanie Queen").must_equal(expected)
     end
 
     it "can load partial from absolute path" do
       dir = Dir.pwd
-      expected = "Have you read It Came From the Partial Side by Stephanie Queen?"
-      template = make_template "Have you read {{> \"#{dir}/test/fixtures/views/partial\" }}?"
+      expected =
+        "Have you read It Came From the Partial Side by Stephanie Queen?"
+      template = make_template(
+        "Have you read {{> \"#{dir}/test/fixtures/views/partial\" }}?",
+      )
       template.render(nil, author: "Stephanie Queen").must_equal(expected)
     end
 
     it "also recognizes .handlebars extension" do
-      expected = "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
+      expected =
+        "My all time favorite book is It Came From the Partial Side by "\
+        "Stephanie Queen."
       template = Tilt.new("test/fixtures/views/partial_test2.handlebars")
       template.render(nil, author: "Stephanie Queen").must_equal(expected)
     end
@@ -255,9 +283,10 @@ describe Tilt::HandlebarsTemplate do
     end
 
     it "gives precedence to registered partial over relative file" do
+      expected = "My all time favorite book is Revenge of the Partial."
       template = Tilt.new("test/fixtures/views/partial_test.hbs")
       template.register_partial :partial, "Revenge of the Partial"
-      template.render.must_equal "My all time favorite book is Revenge of the Partial."
+      template.render.must_equal(expected)
     end
 
     it "raises error if partial cannot be found" do
@@ -266,8 +295,10 @@ describe Tilt::HandlebarsTemplate do
       proc { template.render }.must_raise
     end
 
-    it "cannot automatically load partial when template is created from string instead of file" do
-      template = make_template "I wish I could load a partial like this: {{> my_partial}}."
+    it "cannot load partial when template is created from string" do
+      template = make_template(
+        "I wish I could load a partial like this: {{> my_partial}}.",
+      )
       proc { template.render }.must_raise
     end
 

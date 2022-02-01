@@ -32,7 +32,10 @@ describe "Using handlebars in Sinatra" do
   end
 
   it "renders template with partials" do
+    expected =
+      "My all time favorite book is It Came From the Partial Side by "\
+      "Stephanie Queen."
     response = get "/partials"
-    response.body.strip.must_equal "My all time favorite book is It Came From the Partial Side by Stephanie Queen."
+    response.body.strip.must_equal(expected)
   end
 end

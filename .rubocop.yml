@@ -1,6 +1,7 @@
 require:
   - rubocop-performance
   - rubocop-rake
+  - rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.6
@@ -8,6 +9,9 @@ AllCops:
     - bin/**/*
     - vendor/**/*
   NewCops: enable
+
+Gemspec/RequireMFA:
+  Enabled: false
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
@@ -54,6 +58,9 @@ Layout/FirstMethodParameterLineBreak:
 
 Layout/HeredocArgumentClosingParenthesis:
   Enabled: true
+
+Layout/LineLength:
+  Max: 80
 
 Layout/MultilineArrayLineBreaks:
   Enabled: true
@@ -116,9 +123,6 @@ Metrics/ClassLength:
     - heredoc
   Max: 120
 
-Metrics/CyclomaticComplexity:
-  Max: 10
-
 Metrics/MethodLength:
   CountAsOne:
     - array
@@ -135,8 +139,21 @@ Metrics/ModuleLength:
 Metrics/ParameterLists:
   Max: 10
 
-Naming/MethodParameterName:
-  Enabled: false
+Naming/FileName:
+  Exclude:
+    - lib/tilt-handlebars.rb
+
+RSpec/ExampleLength:
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 20
+
+RSpec/NestedGroups:
+  Max: 8
 
 Style/BlockDelimiters:
   EnforcedStyle: semantic
@@ -152,6 +169,9 @@ Style/FrozenStringLiteralComment:
 Style/StringLiterals:
   EnforcedStyle: double_quotes
   ConsistentQuotesInMultiline: true
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
 
 Style/SymbolArray:
   EnforcedStyle: brackets

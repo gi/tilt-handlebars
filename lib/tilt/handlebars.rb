@@ -14,6 +14,8 @@ module Tilt
   # Handlebars templates to be rendered server side.
   #
   class HandlebarsTemplate < Template
+    EXTENSIONS = ["handlebars", "hbs"].freeze
+
     def initialize_engine
       return if defined? ::Handlebars
 
@@ -70,16 +72,23 @@ module Tilt
         dir = File.dirname file
       end
 
-      partial_file = File.expand_path("#{partial_name}.hbs", dir)
-      partial_file = File.expand_path("#{partial_name}.handlebars", dir) unless File.file? partial_file
+      paths = EXTENSIONS.map { |ext|
+        File.expand_path("#{partial_name}.#{ext}", dir)
+      }
+      path = paths.find { |p|
+        File.file?(p)
+      }
 
-      return File.read(partial_file) if File.file?(partial_file)
+      return File.read(path) if path
 
-      raise "The partial '#{partial_name}' could not be found. No such file #{partial_file}"
+      message =
+        "The partial '#{partial_name}' could not be found. No such files "\
+        "#{paths.join(", ")}"
+      raise message
     end
 
     private :load_partial
   end
 
-  register HandlebarsTemplate, "handlebars", "hbs"
+  register HandlebarsTemplate, *HandlebarsTemplate::EXTENSIONS
 end
