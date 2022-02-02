@@ -5,6 +5,10 @@ require "pathname"
 require "tilt"
 
 module Tilt
+  module Handlebars
+    class Error < RuntimeError; end
+  end
+
   # Handlebars.rb template implementation. See:
   # https://github.com/cowboyd/handlebars.rb
   # and http://handlebarsjs.com
@@ -16,20 +20,21 @@ module Tilt
   class HandlebarsTemplate < Template
     EXTENSIONS = ["handlebars", "hbs"].freeze
 
-    def initialize_engine
-      return if defined? ::Handlebars
-
-      require_template_library "handlebars"
-    end
+    # Loads the template engine, if necessary.
+    #
+    # This method is needed in Tilt 1 but was removed in Tilt 2. It is provided
+    # here for backwards compatibility.
+    # @see https://github.com/rtomayko/tilt/blob/tilt-1/lib/tilt/template.rb#L58
+    def initialize_engine; end
 
     def prepare
-      @engine = ::Handlebars::Engine.new
+      @engine = ::Handlebars::Engine.new(**options.slice(:lazy, :path))
       @engine.register_partial_missing { |name| load_partial(name) }
       @template = @engine.compile(data)
     end
 
     # rubocop:disable Metrics/AbcSize
-    def evaluate(scope, locals = {}, &block)
+    def evaluate(scope, locals, &block)
       # Based on LiquidTemplate
       locals = locals.transform_keys(&:to_s)
       if scope.respond_to?(:to_h)
@@ -84,7 +89,7 @@ module Tilt
       message =
         "The partial '#{partial_name}' could not be found. No such files "\
         "#{paths.join(", ")}"
-      raise message
+      raise Handlebars::Error, message
     end
 
     private :load_partial
