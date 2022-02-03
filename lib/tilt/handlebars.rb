@@ -9,14 +9,11 @@ module Tilt
     class Error < RuntimeError; end
   end
 
-  # Handlebars.rb template implementation. See:
-  # https://github.com/cowboyd/handlebars.rb
-  # and http://handlebarsjs.com
+  # A Tilt interface for the official JavaScript implementation of the
+  # Handlebars.js template engine.
   #
-  # Handlebars is a logic-less template rendered with JavaScript.
-  # Handlebars.rb is a Ruby wrapper around Handlebars, that allows
-  # Handlebars templates to be rendered server side.
-  #
+  # @see https://github.com/rtomayko/tilt
+  # @see https://handlebarsjs.com
   class HandlebarsTemplate < Template
     EXTENSIONS = ["handlebars", "hbs"].freeze
 
@@ -54,14 +51,6 @@ module Tilt
     end
     # rubocop:enable Metrics/AbcSize
 
-    def register_helper(*args, **opts, &block)
-      @engine.register_helper(*args, **opts, &block)
-    end
-
-    def register_partial(*args, **opts, &block)
-      @engine.register_partial(*args, **opts, &block)
-    end
-
     def partial_missing(*args, **opts, &block)
       @engine.register_partial_missing(*args, **opts, &block)
     end
@@ -69,6 +58,8 @@ module Tilt
     def allows_script?
       false
     end
+
+    private
 
     def load_partial(partial_name)
       if Pathname.new(partial_name).absolute?
@@ -92,7 +83,13 @@ module Tilt
       raise Handlebars::Error, message
     end
 
-    private :load_partial
+    def method_missing(name, *args, &block)
+      @engine.send(name, *args, &block)
+    end
+
+    def respond_to_missing?(name, *)
+      @engine.respond_to?(name) || super
+    end
   end
 
   register HandlebarsTemplate, *HandlebarsTemplate::EXTENSIONS
