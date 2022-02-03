@@ -1,7 +1,7 @@
 # Tilt::Handlebars
 
 [![Gem Version](https://badge.fury.io/rb/tilt-handlebars.svg)](https://rubygems.org/gems/tilt-handlebars)
-[![Build Status](https://github.com/gi/tilt-handlebars/actions/workflows/ruby-ci.yml/badge.svg)](https://github.com/gi/tilt-handlebars/actions/workflows/ruby-ci.yml)
+[![Build Status](https://github.com/gi/tilt-handlebars/actions/workflows/ci.yml/badge.svg)](https://github.com/gi/tilt-handlebars/actions/workflows/ci.yml)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/19d544fcb843a50db1a2/test_coverage)](https://codeclimate.com/github/gi/tilt-handlebars/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/19d544fcb843a50db1a2/maintainability)](https://codeclimate.com/github/gi/tilt-handlebars/maintainability)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
