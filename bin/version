@@ -3,10 +3,10 @@
 dir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
 root="$(cd "${dir}/.." && pwd)"
 
-file="${root}/lib/handlebars/engine/version.rb"
+file="${root}/lib/tilt/handlebars/version.rb"
 
 current() {
-  ruby -r "${file}" -e 'puts Handlebars::Engine::VERSION'
+  ruby -r "${file}" -e 'puts Tilt::Handlebars::VERSION'
 }
 
 update() {
