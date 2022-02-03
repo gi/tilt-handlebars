@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+root = File.absolute_path("..", __dir__)
+audit = File.absolute_path("bundler-audit", __dir__)
+
+Dir.chdir(root)
+exec([audit, "audit"], "--update", *ARGV)

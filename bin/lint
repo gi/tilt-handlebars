@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+root = File.absolute_path("..", __dir__)
+rubocop = File.absolute_path("rubocop", __dir__)
+
+Dir.chdir(root)
+exec([rubocop, "rubocop"], *ARGV)

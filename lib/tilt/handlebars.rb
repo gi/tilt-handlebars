@@ -5,6 +5,10 @@ require "pathname"
 require "tilt"
 
 module Tilt
+  module Handlebars
+    class Error < RuntimeError; end
+  end
+
   # Handlebars.rb template implementation. See:
   # https://github.com/cowboyd/handlebars.rb
   # and http://handlebarsjs.com
@@ -14,20 +18,23 @@ module Tilt
   # Handlebars templates to be rendered server side.
   #
   class HandlebarsTemplate < Template
-    def initialize_engine
-      return if defined? ::Handlebars
+    EXTENSIONS = ["handlebars", "hbs"].freeze
 
-      require_template_library "handlebars"
-    end
+    # Loads the template engine, if necessary.
+    #
+    # This method is needed in Tilt 1 but was removed in Tilt 2. It is provided
+    # here for backwards compatibility.
+    # @see https://github.com/rtomayko/tilt/blob/tilt-1/lib/tilt/template.rb#L58
+    def initialize_engine; end
 
     def prepare
-      @engine = ::Handlebars::Engine.new
+      @engine = ::Handlebars::Engine.new(**options.slice(:lazy, :path))
       @engine.register_partial_missing { |name| load_partial(name) }
       @template = @engine.compile(data)
     end
 
     # rubocop:disable Metrics/AbcSize
-    def evaluate(scope, locals = {}, &block)
+    def evaluate(scope, locals, &block)
       # Based on LiquidTemplate
       locals = locals.transform_keys(&:to_s)
       if scope.respond_to?(:to_h)
@@ -70,16 +77,23 @@ module Tilt
         dir = File.dirname file
       end
 
-      partial_file = File.expand_path("#{partial_name}.hbs", dir)
-      partial_file = File.expand_path("#{partial_name}.handlebars", dir) unless File.file? partial_file
+      paths = EXTENSIONS.map { |ext|
+        File.expand_path("#{partial_name}.#{ext}", dir)
+      }
+      path = paths.find { |p|
+        File.file?(p)
+      }
 
-      return File.read(partial_file) if File.file?(partial_file)
+      return File.read(path) if path
 
-      raise "The partial '#{partial_name}' could not be found. No such file #{partial_file}"
+      message =
+        "The partial '#{partial_name}' could not be found. No such files "\
+        "#{paths.join(", ")}"
+      raise Handlebars::Error, message
     end
 
     private :load_partial
   end
 
-  register HandlebarsTemplate, "handlebars", "hbs"
+  register HandlebarsTemplate, *HandlebarsTemplate::EXTENSIONS
 end
