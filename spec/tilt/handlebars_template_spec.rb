@@ -516,4 +516,28 @@ RSpec.describe Tilt::HandlebarsTemplate do
       end
     end
   end
+
+  describe "#respond_to?" do
+    subject { template.respond_to?(name) }
+
+    let(:template_file) { fixture_path("views/hello.hbs") }
+
+    context "when name is `register_helper`" do
+      let(:name) { :register_helper }
+
+      it { is_expected.to eq(true) }
+    end
+
+    context "when name is `register_partial`" do
+      let(:name) { :register_partial }
+
+      it { is_expected.to eq(true) }
+    end
+
+    context "when name is `undefined`" do
+      let(:name) { :undefined }
+
+      it { is_expected.to eq(false) }
+    end
+  end
 end
