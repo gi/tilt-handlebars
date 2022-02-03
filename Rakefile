@@ -1,11 +1,7 @@
-require "bundler/gem_tasks"
-require 'rake/testtask'
+# frozen_string_literal: true
 
-desc 'Run tests (default)'
-Rake::TestTask.new(:test) do |t|
-  t.test_files = FileList['test/*_test.rb']
-  t.ruby_opts = ['-Itest']
-  t.ruby_opts << '-rubygems' if defined? Gem
+Dir.glob("tasks/**/*.rake") do |file|
+  import(file)
 end
 
-task :default => :test
+task default: [:clobber, :test]

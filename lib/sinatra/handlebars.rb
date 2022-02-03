@@ -1,11 +1,13 @@
-require 'tilt/handlebars'
+# frozen_string_literal: true
+
+require "tilt/handlebars"
 
 module Sinatra
-	module Handlebars
-		def handlebars(*args)
-			render(:handlebars, *args)
-		end
-	end
+  module Handlebars
+    def handlebars(*args)
+      render(:handlebars, *args)
+    end
+  end
 
-	helpers Handlebars
+  helpers Handlebars
 end

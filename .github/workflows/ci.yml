@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby-3
+          bundler-cache: true
+      - name: Test
+        run: bin/test
+      - name: Upload
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: fa0a43df2e210318c8da0958f9f100ab1b278c04f57f923affad8bd9fba23901
+        with:
+          coverageLocations: ${{ github.workspace }}/spec/reports/coverage/coverage.xml:cobertura
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby-3
+          bundler-cache: true
+      - name: Lint
+        run: bin/lint
+
+  test:
+    strategy:
+      matrix:
+        appraisal:
+          - tilt_1
+          - tilt_2
+        os:
+          - macos-latest
+          - ubuntu-latest
+        ruby:
+          - ruby-2.6
+          - ruby-2.7
+          - ruby-3.0
+          - ruby-3.1
+          # - jruby
+          # - truffleruby
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.appraisal }}.gemfile
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Test
+        run: bin/test
+        env:
+          COVERAGE: false

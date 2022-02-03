@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+root = File.absolute_path("..", __dir__)
+rake = File.absolute_path("rake", __dir__)
+
+Dir.chdir(root)
+exec([rake, "rake"], "test", *ARGV)

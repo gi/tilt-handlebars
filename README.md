@@ -1,25 +1,33 @@
 # Tilt::Handlebars
-<a href="http://badge.fury.io/rb/tilt-handlebars"><img src="https://badge.fury.io/rb/tilt-handlebars@2x.png" alt="Gem Version" height="18"></a>
-[![Build Status](https://travis-ci.org/jimothyGator/tilt-handlebars.png?branch=develop)](https://travis-ci.org/jimothyGator/tilt-handlebars)
-[![Coverage Status](https://coveralls.io/repos/jimothyGator/tilt-handlebars/badge.png?branch=develop)](https://coveralls.io/r/jimothyGator/tilt-handlebars?branch=develop)
-[![Code Climate](https://codeclimate.com/github/jimothyGator/tilt-handlebars.png)](https://codeclimate.com/github/jimothyGator/tilt-handlebars)
 
-[![Codeship Status](https://www.codeship.io/projects/71da7c90-ee55-0130-eff4-7205960840ac/status)](https://www.codeship.io/projects/6182)
+[![Gem Version](https://badge.fury.io/rb/tilt-handlebars.svg)](https://rubygems.org/gems/tilt-handlebars)
+[![Build Status](https://github.com/gi/tilt-handlebars/actions/workflows/ruby-ci.yml/badge.svg)](https://github.com/gi/tilt-handlebars/actions/workflows/ruby-ci.yml)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/19d544fcb843a50db1a2/test_coverage)](https://codeclimate.com/github/gi/tilt-handlebars/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/19d544fcb843a50db1a2/maintainability)](https://codeclimate.com/github/gi/tilt-handlebars/maintainability)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 
-Adds support for [Handlebars.rb](https://github.com/cowboyd/handlebars.rb) template 
-engine to [Tilt](https://github.com/rtomayko/tilt).
+A [Tilt](https://github.com/rtomayko/tilt) interface for the official JavaScript
+implementation of the [Handlebars.js](https://handlebarsjs.com) template engine.
 
-See the [Handlebars.js](http://handlebarsjs.com) site for syntax.
+[Handlebars::Engine](https://github.com/gi/handlebars-ruby) provides the API
+wrapper. [MiniRacer](https://github.com/rubyjs/mini_racer) provides the
+JavaScript execution environment.
+
+See [Handlebars.js](http://handlebarsjs.com) for template syntax.
+
+See [Handlebars::Engine](https://github.com/gi/handlebars-ruby) for API syntax.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'tilt-handlebars'
+```ruby
+gem 'tilt-handlebars'
+```
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 
@@ -27,7 +35,7 @@ Or install it yourself as:
 
 ## Usage
 
-Create a Handlebars template file with either a `.hbs` or `.handlebars` extension. 
+Create a Handlebars template file with either a `.hbs` or `.handlebars` extension.
 
 Example, in `hello.hbs`:
 
@@ -50,7 +58,7 @@ Output:
 
 ### Partials
 
-Partials are a file that can be loaded into another. For example, you may define a web page with 
+Partials are a file that can be loaded into another. For example, you may define a web page with
 a master layout (`layout.hbs`), which includes a header (`header.hbs`) and footer (`footer.hbs`).
 In this case, `header.hbs` and `footer.hbs` would be partials; `layout.hbs` includes these partials.
 
@@ -69,7 +77,7 @@ In this case, `header.hbs` and `footer.hbs` would be partials; `layout.hbs` incl
 </html>
 ```
 
-Notice that you do not include the `.hbs` file extension in the partial name. Tilt Handlebars 
+Notice that you do not include the `.hbs` file extension in the partial name. Tilt Handlebars
 will look for the partial relative to the enclosing file (`layout.hbs` in this example) with
 either a `.hbs` or `.handlebars` extension.
 
@@ -94,12 +102,18 @@ This will use the template file named `views/hello.hbs`.
 Partials can also be used with Sinatra. As described previously, partials will be loaded
 relative to the enclosing template (e.g., in the `views` directory).
 
+## Changelog
+
+See [RELEASE_NOTES.md](RELEASE_NOTES.md) for more details.
+
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Add tests, preferrably using Minitest::Spec for consistency.
-4. Run tests with `bundle exec rake test`.
-5. Commit your changes (`git commit -am 'Add some feature'`)
-6. Push to the branch (`git push origin my-new-feature`)
-7. Create new Pull Request
+Bug reports and pull requests are welcome on GitHub:
+https://github.com/gi/tilt-handlebars.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+
+## License
+
+The gem is available as open source under the terms of the
+[MIT License](https://opensource.org/licenses/MIT).
